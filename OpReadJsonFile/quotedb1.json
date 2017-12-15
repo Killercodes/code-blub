@@ -1,0 +1,27 @@
+word = {
+    "@Title": "quotedb1",
+    
+    "#accept":["Accept nothing, challenge everything"],
+    "#quickly":["Act quickly... but not too quickly."],
+    "#proof":["A proof tells us where to concentrate our doubts."],
+    "#good":["All That Glitters Is Not Gold, There's Brass And Copper Or It Might Be Plated!"],
+    "#anger":["Anger is a thief who steals away the nice moments."],
+    "#ai":["Artificial intelligence is no match for natural stupidity."],
+    "#life":["As you move through life, set aside good ideas and give them to others to encourage and inspire."],
+    "#lie":["Ask me no questions, I'll tell you no lies."],
+    "#attitude":["Attitude is the difference between winners and losers and the difference between squashing and being squashed."],
+    "#stupidity":["At least those with closed minds never have to worry about their brains gathering dust"],
+    "#judge":["Anything good or bad lies in your eyes."],
+    "#conscience":["A conscience is what hurts when all your other parts feel so good."],
+    "#war": [
+        "war is not good1",
+        "quoteTextwar is not good2",
+        "quoteTextwar is not good3"
+    ],
+     "#win": [
+        "winning is everything"
+     ],
+     "#Quote1": [
+        "quoteText generic quote"
+     ]
+}
