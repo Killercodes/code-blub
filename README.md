@@ -1,2 +1,3 @@
 # code-blub
-Random segments of code compiled together to create unpredictable protocol ie screachpad
+> ***Random segments of code compiled together to create unpredictable protocol***
+
