@@ -6,46 +6,49 @@ namespace Killercodes.Cracking
 { 
     public class Bruteforce : IEnumerable 
     { 
-        #region constructors 
-        private StringBuilder sb = new StringBuilder();
-        //the string we want to permutate 
-        public string charset = "abcdefghijklmnopqrstuvwxyz";
-        private ulong len;
-        private int _max; 
-        public int max { get { return _max; } set { _max = value; } }
-        private int _min; 
-        public int min { get { return _min; } set { _min = value; } } 
-        #endregion 
+       private StringBuilder sb = new StringBuilder();
+       //the string we want to permutate 
+       public string charset = "abcdefghijklmnopqrstuvwxyz";
+       private ulong len;
+       public int max { get; set;}
+       public int min { get; set;}
 
-        #region Methods
-        public System.Collections.IEnumerator GetEnumerator() 
-        { 
-            len = (ulong)this.charset.Length;
-            for (double x = min; x <= max; x++) 
-            { 
-                ulong total = (ulong)Math.Pow((double)charset.Length, (double)x); 
-                ulong counter = 0; 
-                while (counter < total) 
-                { 
-                    string a = factoradic(counter, x - 1); 
-                    yield return a; 
-                    counter++; 
-                } 
-            } 
-        }
-        private string factoradic(ulong l, double power) 
-        { 
-            sb.Length = 0; 
-            while (power >= 0) 
-            { 
-                sb = sb.Append(this.charset[(int)(l % len)]); 
-                l /= len; 
-                power--; 
-            } 
-            return sb.ToString(); 
-        } 
-        #endregion 
-    } 
+       public Bruteforce(int Minimum, int Maximum, string CharacterSet)
+       {
+            this.min = Minimum;
+            this.max = Maximum;
+            if(!string.IsNullOrEmpty(CharacterSet))
+                this.charset = CharacterSet;
+       }
+
+       public System.Collections.IEnumerator GetEnumerator() 
+       { 
+           len = (ulong)this.charset.Length;
+           for (double x = min; x <= max; x++) 
+           { 
+               ulong total = (ulong)Math.Pow((double)charset.Length, (double)x); 
+               ulong counter = 0; 
+               while (counter < total) 
+               { 
+                   string a = factoradic(counter, x - 1); 
+                   yield return a; 
+                   counter++; 
+               } 
+           } 
+       }
+
+       private string factoradic(ulong l, double power) 
+       { 
+           sb.Length = 0; 
+           while (power >= 0) 
+           { 
+               sb = sb.Append(this.charset[(int)(l % len)]); 
+               l /= len; 
+               power--; 
+           } 
+           return sb.ToString(); 
+       }    
+    }
     
     public class BruteForce2
     {
@@ -102,10 +105,7 @@ namespace Killercodes.Cracking
      { 
          static void Main(string[] args) 
          { 
-             Bruteforce b = new Bruteforce(); 
-             b.min = 2; 
-             b.max = 4; 
-             b.charset = "abcdefghijklmnopqrstuvwxyz0123456789"; 
+             Bruteforce b = new Bruteforce(2,8,"abcdefghijklmnopqrstuvwxyz0123456789"); 
              string target= "abc1"; 
              foreach (string result in b) 
              { 
