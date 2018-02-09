@@ -14,7 +14,7 @@ namespace killercodes_in
         
         static public void Main(string[] args)
         {
-            if ((args.Length == 1 &amp;&amp; (args[0] == "?" || args[0] == "/?" || args[0] == "-?" || args[0].ToLower() == "help")))
+            if ((args.Length == 1 && (args[0] == "?" || args[0] == "/?" || args[0] == "-?" || args[0].ToLower() == "help")))
             {
                 Console.WriteLine(usage);
             }
@@ -33,9 +33,9 @@ namespace killercodes_in
         static String ReflectXml(Assembly assembly)
         {
             StringBuilder xmlDoc = new StringBuilder();
-            Func&lt;string, string, string&gt; tagIt = (tag, value) =&gt;
+            Func<string, string, string> tagIt = (tag, value) =>
             {
-                return string.Format("&lt;{0}&gt;{1}&lt;/{0}&gt;", tag, value);
+                return string.Format("<{0}>{1}</{0}>", tag, value);
             };               
             
             xmlDoc.AppendLine(tagIt("assembly", assembly.FullName));
@@ -111,7 +111,7 @@ namespace killercodes_in
             }
         }
 
-        private static void Printer(String message)
+        private static void Printer(string message)
         {
             String[] print = message.Split(':');
             if (print.Count() &gt; 1)
@@ -126,10 +126,9 @@ namespace killercodes_in
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(message);
             }
-
         }
 
-        private static void PrintMethod(String message)
+        private static void PrintMethod(string message)
         {
             String[] print = message.Split(':');
             Console.ForegroundColor = ConsoleColor.Cyan;
