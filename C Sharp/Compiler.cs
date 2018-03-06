@@ -31,7 +31,8 @@ public static class Compiler
 			GenerateExecutable = false, 
 			GenerateInMemory = true,
 			//OutputAssembly = exeName,
-			TreatWarningsAsErrors = false
+			TreatWarningsAsErrors = false,
+			ReferencedAssemblies.Add("System");
     	};
 		
 		//compile
