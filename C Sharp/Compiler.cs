@@ -28,8 +28,10 @@ public static class Compiler
 {	
 	public static void Execute(string sourceCode,string className, string methodName){
 		 var compParms = new CompilerParameters{
-			GenerateExecutable = false, 
-			GenerateInMemory = true,
+			 // True - exe file generation, false - dll file generation
+			GenerateExecutable = true, 
+			 // True - memory generation, false - external file generation
+			 GenerateInMemory = true,
 			//OutputAssembly = exeName,
 			TreatWarningsAsErrors = false,
 			ReferencedAssemblies.Add("System");
