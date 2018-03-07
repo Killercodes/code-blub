@@ -1,9 +1,7 @@
-<Query Kind="Program">
-  <Namespace>Microsoft.CSharp</Namespace>
-  <Namespace>System.CodeDom.Compiler</Namespace>
-</Query>
+using Microsoft.CSharp;
+using System.CodeDom.Compiler;
 
-void Main()
+static void Main()
 {
 	string sourceCode = @"using System; 
 	public class Test{
