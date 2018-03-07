@@ -94,4 +94,62 @@ public static class Compiler
         }
 						
 	}
+	
+	// compile dll
+	public static void Compile(string sourceCode,string className)
+	{
+		// DLL compiler 
+		 var compParms = new CompilerParameters{
+			GenerateExecutable = false, 
+			GenerateInMemory = false,
+			OutputAssembly = String.Format(@"{0}\{1}.dll", System.Environment.CurrentDirectory,className),
+			TreatWarningsAsErrors = false,
+			//CompilerOptions = "/optimize",
+			//IncludeDebugInformation = true,
+			//TempFiles = new TempFileCollection(".", true),
+			WarningLevel = 3,
+			
+    		};
+		//Exe compilation
+		/* var compParmsExe = new CompilerParameters{
+			GenerateExecutable = true, 
+			GenerateInMemory = false,
+			OutputAssembly = String.Format(@"{0}\{1}.exe", System.Environment.CurrentDirectory,className),
+			TreatWarningsAsErrors = false,
+			//CompilerOptions = "/optimize",
+			//IncludeDebugInformation = true,
+			//TempFiles = new TempFileCollection(".", true),
+			WarningLevel = 3,
+			
+    		};
+		*/
+				
+		
+		//Add all references
+		var assemblies = AppDomain.CurrentDomain
+                            .GetAssemblies()
+                            .Where(a => !a.IsDynamic)
+                            .Select(a => a.Location);   
+							
+		compParms.ReferencedAssemblies.AddRange(assemblies.ToArray());
+		
+		//compile
+		var csProvider = new CSharpCodeProvider();
+    		CompilerResults compilerResults = csProvider.CompileAssemblyFromSource(compParms, sourceCode);
+		if(compilerResults.Errors.Count > 0)
+		{
+		    // Display compilation errors.
+		    Console.WriteLine("Errors building {0} into {1}", className, compilerResults.PathToAssembly);
+		    foreach(CompilerError ce in compilerResults.Errors)
+		    {
+			Console.WriteLine("  {0}", ce.ToString());
+			Console.WriteLine();
+		    }
+		}
+		else
+		{
+		    // Display a successful compilation message.
+		    Console.WriteLine("Source {0} built into {1} successfully.",className, compilerResults.PathToAssembly);
+		}
+	}
 }
