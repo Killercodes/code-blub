@@ -19,14 +19,26 @@ void Main()
 	//or read from a file 
 	string readCode = File.ReadAllText(@"test.cs");
    
-    Compiler.Compile(sourceCode,"Test",true);
+	Plugin.Status += (s) => Console.WriteLine(s);
+    Plugin.Compile(sourceCode,"Test");
 		
 }
 
 // Define other methods and classes here
 
-public static class Compiler
+public static class Plugin
 {	
+	//stus
+	public delegate void CompilerStatus(string  state);
+	public static event CompilerStatus Status;	
+	private static void _status(string stat)
+	{
+		if(Status != null){
+			Status(stat);
+		}
+	}
+	
+	//Execute
 	public static void Execute(string sourceCode,string className, string methodName){
 		 var compParms = new CompilerParameters{
 			 // True - exe file generation, false - dll file generation
@@ -73,6 +85,7 @@ public static class Compiler
     	mi.Invoke(typeInstance, null); 				
 	}
 	
+	//Compile Exe
 	public static void Compile(string sourceCode,string className, bool isExe){
 		 var compParms = new CompilerParameters{
 			GenerateExecutable = true, 
@@ -104,7 +117,7 @@ public static class Compiler
 						
 	}
 	
-	// compile dll
+	// compile dll/exe
 	public static void Compile(string sourceCode,string className)
 	{
 		// DLL compiler 
