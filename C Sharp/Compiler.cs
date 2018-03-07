@@ -16,7 +16,8 @@ void Main()
 		}
 	}";
 
-	//
+	//or read from a file 
+	string readCode = File.ReadAllText(@"test.cs");
    
     Compiler.Compile(sourceCode,"Test",true);
 		
@@ -36,6 +37,14 @@ public static class Compiler
 			TreatWarningsAsErrors = false,
 			ReferencedAssemblies.Add("System");
     	};
+		
+		//Add references
+		var assemblies = AppDomain.CurrentDomain
+                            .GetAssemblies()
+                            .Where(a => !a.IsDynamic)
+                            .Select(a => a.Location);   
+							
+		compParms.ReferencedAssemblies.AddRange(assemblies.ToArray());
 		
 		//compile
 		var csProvider = new CSharpCodeProvider();
