@@ -39,3 +39,21 @@ def main():
             print '[-] ' + filename +\
                 ' access denied.'
             exit(0)
+    else:
+        print '[-] Usage: ' + str(sys.argv[0]) +\
+            ' <vuln filename>'
+        exit(0)
+
+    portList = [21,22,25,80,110,443]
+    for x in range(1, 255):
+        ip = ipaddr + str(x)
+        print " - Scanning.. " + ip + "\r"
+        for port in portList:
+            banner = retBanner(ip, port)
+            if banner:
+                print '[+] ' + ip + ' : ' + banner
+                checkVulns(banner, filename)
+
+
+if __name__ == '__main__':
+    main()
