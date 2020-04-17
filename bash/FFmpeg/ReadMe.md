@@ -130,3 +130,70 @@ ffmpeg -i input.mp4 -filter:v "setpts=0.125*PTS" output.mp4
 For changing the speed of audio, use the atempo audio filter. This command will double the speed of audio. You can use any value between 0.5 and 2.0 for audio.
 ``` bash
 ffmpeg -i input.mkv -filter:a "atempo=2.0" -vn output.mkv
+```
+## channelsplit
+Split each channel from an input audio stream into a separate output stream.
+
+It accepts the following parameters:
+
+**channel_layout**
+The channel layout of the input stream. The default is "stereo".
+
+**channels**
+A channel layout describing the channels to be extracted as separate output streams or "all" to extract each input channel as a separate stream. The default is "all".
+
+Choosing channels not present in channel layout in the input will result in an error.
+
+
+For example, assuming a stereo input MP3 file,
+```
+ffmpeg -i in.mp3 -filter_complex channelsplit out.mkv
+```
+will create an output Matroska file with two audio streams, one containing only the left channel and the other the right channel.
+
+Split a 5.1 WAV file into per-channel files:
+```
+ffmpeg -i in.wav -filter_complex
+'channelsplit=channel_layout=5.1[FL][FR][FC][LFE][SL][SR]'
+-map '[FL]' front_left.wav -map '[FR]' front_right.wav -map '[FC]'
+front_center.wav -map '[LFE]' lfe.wav -map '[SL]' side_left.wav -map '[SR]'
+side_right.wav
+```
+Extract only LFE from a 5.1 WAV file:
+```
+ffmpeg -i in.wav -filter_complex 'channelsplit=channel_layout=5.1:channels=LFE[LFE]'
+-map '[LFE]' lfe.wav
+```
+
+## channelmap
+Remap input channels to new locations.
+
+It accepts the following parameters:
+
+For example, assuming a 5.1+downmix input MOV file,
+```
+ffmpeg -i in.mov -filter 'channelmap=map=DL-FL|DR-FR' out.wav
+```
+will create an output WAV file tagged as stereo from the downmix channels of the input.
+
+To fix a 5.1 WAV improperly encoded in AAC’s native channel order
+```
+ffmpeg -i in.wav -filter 'channelmap=1|2|0|5|3|4:5.1' out.wav
+```
+
+## aresample
+
+Resample the input audio to the specified parameters, using the libswresample library. If none are specified then the filter will automatically convert between its input and output.
+
+This filter is also able to stretch/squeeze the audio data to make it match the timestamps or to inject silence / cut out audio to make it match the timestamps, do a combination of both or do neither.
+
+The filter accepts the syntax [sample_rate:]resampler_options, where sample_rate expresses a sample rate and resampler_options is a list of key=value pairs, separated by ":".
+
+Resample the input audio to 44100Hz:
+```
+aresample=44100
+```
+Stretch/squeeze samples to the given timestamps, with a maximum of 1000 samples per second compensation:
+```
+aresample=async=1000
+```
